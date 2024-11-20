@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image',
+        'status',
+        'stripe_customer_id',
     ];
 
     /**
@@ -44,5 +47,23 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+
+
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'team_members')->withPivot('role');
+    }
+
+
+    public function teamCount()
+    {
+        return $this->teams()->count();;
+    }
+
+    public function isSubscribed()
+    {
+        return $this->status === 'active';
     }
 }
