@@ -16,7 +16,7 @@
 <body class="bg-gray-100">
     <!-- Button to Open Modal -->
     <button onclick="toggleModal('modaletasks', true)"
-        class="bg-[#446fcc] font-bold text-white px-3 py-2 rounded-md text-sm hover:bg-[#617deb] transition">
+        class="bg-black font-bold text-white px-3 py-2 rounded-md text-sm   hover:bg-gray-600 transition">
         + Create Task
     </button>
 

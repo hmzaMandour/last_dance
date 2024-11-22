@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use App\Models\Team;
 use App\Models\User;
 use Exception;
@@ -22,14 +23,23 @@ class TeamController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $teams = Team::where('owner_id', auth()->id())->paginate(9);
 
-        return view('dashboard', [
+        $t = Team::where('owner_id', $user->id);
+        $teamTasks = Team::whereIn('id', $user->teams->pluck('id'));
+        // dd($teamTasks);
+        $teams = $t->union($teamTasks)->paginate(5);
+
+
+        return view('Tasks.showTeams', [
             'teams' => $teams,
             'isSubscribed' => $user->isSubscribed(),
-            'teamCount' => $user->teamCount(),
-            'subscriptionStatus' => $user->status, // Show subscription status
+            'teamCount' => $user->teams->count(),
         ]);
+    }
+
+
+    public function index2(){
+        return view('dashboard');
     }
 
     /**
@@ -47,11 +57,12 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
+        // dd('sssssssssssss');
         $user = auth()->user();
 
         // Check if the user has reached the team limit
         if (!$user->isSubscribed() && $user->teamCount() >= 5) {
-            return redirect()->route('dashboard')
+            return redirect()->route('team.index')
             ->with('error', 'You have reached the maximum limit of 5 teams. Please subscribe to create more teams.');
         }
 
@@ -72,7 +83,7 @@ class TeamController extends Controller
         $team->members()->attach($user, ['role' => 'Owner']);
 
         // Redirect back with a success message
-        return redirect()->route('dashboard')->with('success', 'Team created successfully!');
+        return redirect()->route('team.index')->with('success', 'Team created successfully!');
     }
 
 

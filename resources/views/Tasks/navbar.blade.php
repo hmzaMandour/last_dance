@@ -1,5 +1,5 @@
             <header
-                class="flex justify-between shadow-sm shadow-[#446fcc] items-center border p-4 rounded-md mb-6 bg-gradient-to-r from-blue-500 to-teal-400">
+                class="flex justify-between shadow-sm shadow items-center border p-4 rounded-md mb-6 bg-black">
                 <h2 class="text-xl text-white font-bold">
                     <a href="{{ route('dashboard') }}" class="text-white">Dashboard</a>
                 </h2>

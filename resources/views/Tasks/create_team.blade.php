@@ -16,7 +16,7 @@
 <body class="bg-gray-100">
     <!-- Button to Open Modal -->
     <button onclick="toggleModal('modalConfirm', true)"
-        class="bg-[#446fcc] font-bold text-white px-3 py-2 rounded-md text-sm hover:bg-[#617deb] transition">
+        class="bg-black font-bold text-white px-3 py-2 rounded-md text-sm hover:bg-gray-600 transition">
         + Create Team
     </button>
 
@@ -39,7 +39,7 @@
             <h2 class="text-2xl font-bold text-center text-[#446fcc] mb-6">Create a New Team</h2>
 
             <!-- Form for Creating a Team -->
-            <form action="{{ route('task.store') }}" method="POST">
+            <form action="{{ route('team.store') }}" method="POST">
                 @csrf
 
                 <!-- Team Name -->

@@ -43,9 +43,9 @@ class InvitationController extends Controller
         $user = auth()->user();
 
 
-        if ($team->owner_id !== $user->id) {
-            return back()->with('success', "you can't invite your self");
-        }
+        // if ($team->owner_id !== $user->id) {
+        //     return back()->with('success', "you can't invite your self");
+        // }
 
         $existingMember = $team->members()->where('email', $request->email)->exists();
         if ($existingMember) {

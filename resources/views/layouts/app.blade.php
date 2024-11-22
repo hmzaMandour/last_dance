@@ -28,7 +28,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="w-[99vw] pl-[22vw]">
                 {{ $slot }}
             </main>
         </div>
