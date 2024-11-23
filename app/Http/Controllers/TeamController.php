@@ -27,7 +27,7 @@ class TeamController extends Controller
         $t = Team::where('owner_id', $user->id);
         $teamTasks = Team::whereIn('id', $user->teams->pluck('id'));
         // dd($teamTasks);
-        $teams = $t->union($teamTasks)->paginate(5);
+        $teams = $t->union($teamTasks)->paginate(6);
 
 
         return view('Tasks.showTeams', [
@@ -39,8 +39,11 @@ class TeamController extends Controller
 
 
     public function index2(){
-        return view('dashboard');
+        $tasksDone = 43;
+        $weeklyProgress = [12, 19, 3, 5, 2, 3, 9];
+        return view('dashboard', compact('tasksDone', 'weeklyProgress'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -135,7 +138,7 @@ class TeamController extends Controller
             ]],
             'mode' => 'subscription',
             'success_url' => route('subscribe.success'),
-            'cancel_url' => route('dashboard'),
+            'cancel_url' => route('team.index'),
         ]);
 
         return redirect()->away($checkout_session->url);
@@ -202,6 +205,6 @@ class TeamController extends Controller
             $user->status = 'active';
             $user->save();
         } 
-        return redirect()->route('dashboard')->with('success', 'Your subscription was successful!');
+        return redirect()->route('team.index')->with('success', 'Your subscription was successful!');
     }
 }

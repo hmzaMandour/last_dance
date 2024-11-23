@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id(); // Primary key
             $table->string('name');
             $table->text('description');
-            $table->timestamp('deadline')->nullable();
-            $table->enum('priority', ['High', 'Medium', 'Low']); 
-            $table->enum('status', ['Pending', 'Completed', 'Overdue'])->default('Pending'); 
+            $table->string('start');
+            $table->string('end');
+            $table->enum('priority', ['High', 'Medium', 'Low']);
+            $table->enum('status', ['Do', 'Doing', 'Done'])->default('Do');
             $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete(); 
             $table->foreignId('assigned_to')->nullable()->constrained('users')->cascadeOnDelete(); 
             $table->foreignId('team_id')->nullable()->constrained('teams')->cascadeOnDelete();

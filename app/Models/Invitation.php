@@ -19,6 +19,6 @@ class Invitation extends Model
     }
 
     public function owner(){
-        return $this->belongsTo(user::class , 'invited_by');
+        return $this->belongsTo(User::class , 'invited_by');
     }
 }

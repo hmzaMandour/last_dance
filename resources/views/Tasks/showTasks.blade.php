@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,21 +49,15 @@
 </head>
 
 
-<body class="min-h-screen bg-gray-200 text-gray-800 overflow-x-hidden">
+<body class="min-h-screen text-gray-800 overflow-x-hidden bg-[#1c1c1c] ">
 
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 
     <div class="flex">
-
-
         @include('layouts.sidebar')
 
-        <main class="flex-1 p-6 ">
-
+        <main class="flex-1 p-6">
             @include('Tasks.navbar')
-
-
-
 
             @if (session('success'))
                 <div id="success-message"
@@ -90,15 +82,18 @@
                 </div>
             @endif
 
-
-
-
-            <div class="mb-4">
+            <div class="mb-4 flex  items-center justify-between">
                 @include('Tasks.create_task')
+                <div>
+                    <a href="{{ route('tasks.todo') }}" class="bg-blue-600  hover:bg-blue-500  font-semibold text-white px-4 py-2 rounded-lg">View To-Do
+                        List</a>
+
+                </div>
             </div>
 
-            <div class="container ">
-                <div class=" bg-gray-900 shadow-md rounded-lg">
+            <div class="container shadow-sm shadow-gray-400">
+                <div class="bg-[#151516] shadow-md rounded-lg">
+
                     <table class="min-w-full divide-y divide-gray-700">
                         <thead class="bg-gray-800">
                             <tr>
@@ -140,7 +135,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-gray-900 divide-y divide-gray-700">
+                        <tbody class="bg-[#1c1c1c]  divide-y divide-gray-700">
                             @foreach ($tasks as $task)
                                 <tr class="hover:bg-gray-800">
                                     <td class="px-6 py-4 text-sm text-gray-100">
@@ -182,35 +177,25 @@
                                     <td class="px-6 py-4 text-center">
                                         <div class="flex justify-center gap-2">
                                             <!-- Edit Icon Button -->
-                                            <button class="p-2  text-blue-500 rounded-full ">
+                                            <button class="p-2 text-blue-500 rounded-full">
                                                 <i class="fas fa-edit"></i>
                                             </button>
 
                                             <!-- Delete Icon Button -->
-                                            <button class="p-2  text-red-500 rounded-full ">
+                                            <button class="p-2 text-red-500 rounded-full">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
-
-
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
-
-
-
-
-
         </main>
-
     </div>
-
 </body>
+
 
 </html>

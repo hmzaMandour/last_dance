@@ -42,14 +42,15 @@ class InvitationController extends Controller
 
         $user = auth()->user();
 
+        $email = $team->members->pluck('email')->first();
 
-        // if ($team->owner_id !== $user->id) {
-        //     return back()->with('success', "you can't invite your self");
-        // }
+        if ($email == $request->email) {
+            return back()->with('error', "you can't invite your self");
+        }
 
         $existingMember = $team->members()->where('email', $request->email)->exists();
         if ($existingMember) {
-            return back()->with('success', "you are already a member here");
+            return back()->with('error', "you are already a member here");
 
         }
 
@@ -105,7 +106,7 @@ class InvitationController extends Controller
         $invitation = Invitation::where('id' , $id)->first();
 
         if ($invitation->status !== 'Pending') {
-            return response()->json(['message' => 'This invitation is no longer valid.'], 400);
+            return redirect()->route('team.index')->with('error', 'This invitation is no longer valid.');
         }
 
         $user = User::firstOrCreate(['email' => $invitation->email]);
@@ -115,7 +116,7 @@ class InvitationController extends Controller
 
         $invitation->update(['status' => 'Accepted']);
 
-        return response()->json(['message' => 'You have successfully joined the team.']);
+        return redirect()->route('team.index')->with('success' ,'You have successfully joined the team.');
     }
 
 
