@@ -15,24 +15,37 @@ class TaskController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $userTasks = Task::where('creator_id', $user->id);
-        $teamTasks = Task::whereIn('team_id', $user->teams->pluck('id'));
-        $tasks = $userTasks->union($teamTasks)->get();
 
-        return view('Tasks.showTasks', compact('tasks'));
+        $userTasks = Task::where('creator_id', $user->id)->get();
+
+        $teamTasks = Task::whereIn('team_id', $user->teams->pluck('id'))->orWhere('assigned_to', $user->id)->get();
+
+        // $teamTasks = Task::where('creator_id', $user->id)->orWhere('assigned_to', $user->id)
+        //     ->orderBy('priority', 'asc')
+        //     ->get();
+
+
+        $tasks = $userTasks->merge($teamTasks);
+
+        return view('Tasks.showTasks', compact('tasks' , 'teamTasks' , 'userTasks'));
     }
+
+
+
 
     public function todoList()
     {
-        $tasks = Task::where('creator_id', auth()->id()) 
+        $user = auth()->user();
+        $tasks = Task::where('creator_id', $user->id)->orWhere('assigned_to', $user->id)
             ->orderBy('priority', 'asc')
             ->get()
-            ->groupBy('status'); 
+            ->groupBy('status');
 
         return view('tasks.todo', compact('tasks'));
     }
 
-    public function index2(){
+    public function index2()
+    {
         return view('Tasks.calendar');
     }
 
@@ -76,11 +89,11 @@ class TaskController extends Controller
     {
         //
         $request->validate([
-            'name'=>'required',
-            'description'=>'required',
-            'start'=>'required',
-            'end'=>'required',
-            'priority'=>'required',
+            'name' => 'required',
+            'description' => 'required',
+            'start' => 'required',
+            'end' => 'required',
+            'priority' => 'required',
             'assigned_to' => 'nullable',
             'team_id' => 'nullable',
         ]);
@@ -89,7 +102,7 @@ class TaskController extends Controller
         $user = auth()->user();
 
         if ($teamId) {
-            $teams = Team::where('id'  , $teamId)->first();
+            $teams = Team::where('id', $teamId)->first();
         }
 
         Task::create([
@@ -102,7 +115,7 @@ class TaskController extends Controller
             'creator_id' => $user->id,
             'assigned_to' => $request->assigned_to,
             'team_id' => $teamId,
-            
+
         ]);
 
         return back();
@@ -117,7 +130,6 @@ class TaskController extends Controller
 
         $task->update(['status' => $validated['status']]);
         return response()->json(['message' => 'Task status updated successfully.'], 200);
- 
     }
 
 

@@ -157,6 +157,7 @@
                         </p>
 
 
+
                         <div class="flex items-center mb-4">
                             <div class="flex items-center -space-x-2">
                                 @foreach ($team->members as $member)
@@ -164,20 +165,20 @@
                                         <img src="{{ asset('storage/images/' . ($member->image ?? 'default.jpg')) }}"
                                             alt="{{ $member->name }}" title="{{ $member->name }}"
                                             class="w-8 h-8 rounded-full border-2 border-white hover:scale-110 transition-transform">
-                                        <span class="text-sm text-gray-500 ml-2">
-                                            +{{ $team->members->where('pivot.role', 'Member')->count() }} members
-                                        </span>
                                     @endif
                                 @endforeach
+                                <span class="text-sm text-gray-500 ml-2">
+                                    {{ $team->members->where('pivot.role', 'Member')->count() }} members
+                                </span>
                             </div>
 
                         </div>
 
 
-                        @if (auth()->id() === $team->owner_id || $team->members->contains(auth()->id()))
+                        @if ($user->id === $team->owner_id || $team->members->contains($user->id))
                             <div class="flex justify-center flex-col gap-6 mt-4">
 
-                                @if (auth()->id() === $team->owner_id)
+                                @if ($user->id === $team->owner_id)
                                     <button onclick="openModal('modaleinvite{{ $team->id }}')"
                                         class="bg-gray-900 font-semibold text-white py-2 px-6 rounded-lg divide-gray-700 transition-all duration-300 ease-in-out flex items-center shadow-lg transform hover:scale-105">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

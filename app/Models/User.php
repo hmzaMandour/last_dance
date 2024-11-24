@@ -59,6 +59,7 @@ class User extends Authenticatable
 
     public function teamCount()
     {
+        
         return $this->teams()->count();;
     }
 
@@ -66,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->status === 'active';
     }
+
+    // public function isGroupOwner()
+    // {
+    //     return $this->teams()->where('owner_id', $this->id)->exists();
+    // }
 }
