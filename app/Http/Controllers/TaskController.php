@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -163,5 +164,8 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+        Gate::authorize('destroy-task', $task);
+        $task->delete();
+        return back();
     }
 }

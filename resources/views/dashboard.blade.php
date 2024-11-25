@@ -36,10 +36,10 @@
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Completed', 'In Progress', 'Pending'],
+                    labels: ['Do', 'Doing', 'Done'],
                     datasets: [{
-                        data: [50, 30, 20],
-                        backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
+                        data: [{{ $totalDo }}, {{ $totalDoing }}, {{ $totalDone }} ],
+                        backgroundColor: ['#3b82f6', '#FFC107', '#4CAF50'],
                         borderWidth: 1
                     }]
                 },
@@ -84,17 +84,17 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                     <div class=" shadow-sm shadow-gray-400 p-6 rounded-lg shadow-md">
                         <h3 class="text-xl font-bold text-white">Total Tasks</h3>
-                        <p class="text-3xl font-bold text-blue-500">120</p>
+                        <p class="text-3xl font-bold text-blue-500">{{ $allTasks }} </p>
                         <p class="text-sm text-white">All tasks in the system.</p>
                     </div>
                     <div class="shadow-sm shadow-gray-400 p-6 rounded-lg shadow-md">
                         <h3 class="text-xl font-bold text-white">Completed Tasks</h3>
-                        <p class="text-3xl font-bold text-green-500">75</p>
+                        <p class="text-3xl font-bold text-green-500">{{ $totalDone }}</p>
                         <p class="text-sm text-white">Tasks successfully completed.</p>
                     </div>
                     <div class="shadow-sm shadow-gray-400 p-6 rounded-lg shadow-md">
                         <h3 class="text-xl font-bold text-white">Pending Tasks</h3>
-                        <p class="text-3xl font-bold text-yellow-500">30</p>
+                        <p class="text-3xl font-bold text-yellow-500">{{ $totalDoing }}</p>
                         <p class="text-sm text-white">Tasks waiting to be processed.</p>
                     </div>
                 </div>

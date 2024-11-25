@@ -33,14 +33,15 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/subscribe', [TeamController::class, 'sub'])->name('subscribe');
     Route::get('/subscribe/success', [TeamController::class, 'subscriptionSuccess'])->name('subscribe.success');
+    Route::get('/members' , [TeamController::class , 'members'])->name('team.members');
+    Route::delete('/members/delete/{team}/{member}' , [TeamController::class , 'kickmembers'])->name('members.kick');
 
-    // In your web.php (routes file)
-    // Route::post('/webhooks/stripe', [TeamController::class, 'handleWebhook'])->name('stripe.webhook');
     Route::get('/task', [TaskController::class, 'index'])->name('task.index');
     Route::get('/calender', [TaskController::class, 'index2'])->name('calender.index');
     Route::get('/calendar/create', [TaskController::class, 'create'])->name('task.calender');
     Route::get('/tasks/todo', [TaskController::class, 'todoList'])->name('tasks.todo');
     Route::post('/task/store', [TaskController::class, 'store'])->name('task.store');
+    Route::delete('/task/delete/{task}', [TaskController::class, 'destroy'])->name('task.destroy');
 
     Route::patch('/tasks/{task}/update-status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
 

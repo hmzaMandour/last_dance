@@ -24,10 +24,10 @@ class TeamController extends Controller
     {
         $user = auth()->user();
 
-        $t = Team::where('owner_id', $user->id);
+        $team = Team::where('owner_id', $user->id);
         $teamTasks = Team::whereIn('id', $user->teams->pluck('id'));
         // dd($teamTasks);
-        $teams = $t->union($teamTasks)->paginate(6);
+        $teams = $team->union($teamTasks)->paginate(6);
 
 
         return view('Tasks.showTeams', [
@@ -36,12 +36,27 @@ class TeamController extends Controller
             'teamCount' => $user->teams->count(),
         ]);
     }
+public function members()
+{
+    $user = auth()->user();
+
+    $teams = Team::where('owner_id', $user->id)->get();
+
+    return view('Tasks.members', compact('teams'));
+}
+
+
 
 
     public function index2(){
-        $tasksDone = 43;
+        $user=auth()->user();
+        $allTasks= Task::where('creator_id', $user->id)->count();
+        $totalDone = Task::where('creator_id' , $user->id)->where('status', 'Done')->count();
+        $totalDo = Task::where('creator_id' , $user->id)->where('status', 'Do')->count();
+        $totalDoing = Task::where('creator_id' , $user->id)->where('status', 'Doing')->count();
+   
         $weeklyProgress = [12, 19, 3, 5, 2, 3, 9];
-        return view('dashboard', compact('tasksDone', 'weeklyProgress'));
+        return view('dashboard', compact( 'weeklyProgress' , 'totalDone', 'totalDo' , 'totalDoing' , 'allTasks'));
     }
 
 
@@ -51,9 +66,9 @@ class TeamController extends Controller
     public function create()
     {
         //
-        
         return view('Tasks.create_team' );
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -120,6 +135,15 @@ class TeamController extends Controller
     public function destroy(Team $team)
     {
         //
+        $team->delete();
+        return back();
+    }
+
+    public function kickmembers(Team $team , $member){
+
+    //    dd($member);
+    $team->members()->detach($member);
+    return back();
     }
 
 
@@ -131,7 +155,7 @@ class TeamController extends Controller
         $prices = Price::all();
 
         $checkout_session = Session::create([
-            'customer' => $user->stripe_customer_id, // Use the user's Stripe customer ID
+            'customer' => $user->stripe_customer_id, 
             'line_items' => [[
                 'price' => $prices->data[0]->id,
                 'quantity' => 1,
@@ -145,54 +169,11 @@ class TeamController extends Controller
     }
 
 
-    // public function handleWebhook(Request $request)
-    // {
-    //     Stripe::setApiKey(env('STRIPE_SECRET'));
-    //     $payload = $request->getContent();
-    //     $sig_header = $request->header('Stripe-Signature');
-    //     $endpoint_secret = env('STRIPE_ENDPOINT_SECRET');
-
-    //     try {
-    //         $event = Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
-
-    //         // Log the received event
-    //         Log::info('Stripe webhook received', ['event' => $event]);
-
-    //         switch ($event->type) {
-    //             case 'checkout.session.completed':
-    //                 $session = $event->data->object;
-    //                 Log::info('Checkout session completed', ['session' => $session]);
-    //                 $this->handleSubscriptionSuccess($session);
-    //                 break;
-    //             default:
-    //                 Log::info('Unhandled event type', ['type' => $event->type]);
-    //                 break;
-    //         }
-
-    //         return response('Webhook handled', 200);
-    //     } catch (Exception $e) {
-    //         Log::error('Stripe webhook error', ['message' => $e->getMessage()]);
-    //         return response('Webhook error', 400);
-    //     }
-    // }
 
 
 
 
-    // protected function handleSubscriptionSuccess($session)
-    // {
-    //     // Retrieve the user associated with the session by their Stripe customer ID
-    //     $user = User::where('stripe_customer_id', $session->customer)->first();
 
-    //     if ($user) {
-    //         // Update subscription status to 'active'
-    //         $user->status = 'active';
-    //         $user->team_limit = 10; // Increase team limit
-    //         $user->save();
-    //     } else {
-    //         Log::error('User not found for Stripe customer ID', ['customer_id' => $session->customer]);
-    //     }
-    // }
 
 
 

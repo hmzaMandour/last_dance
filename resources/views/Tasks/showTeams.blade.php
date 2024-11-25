@@ -133,8 +133,14 @@
                 </div>
             @endif
 
-            <div class="mb-4">
+            <div class="mb-4 flex  items-center justify-between">
                 @include('Tasks.create_team')
+                <div>
+                    <a href="{{ route('team.members') }}"
+                        class="bg-blue-600  hover:bg-blue-500  font-semibold text-white px-4 py-2 rounded-lg">View
+                        members of your team</a>
+
+                </div>
             </div>
 
 
@@ -157,8 +163,22 @@
                         </p>
 
 
-
                         <div class="flex items-center mb-4">
+                            <div class="flex -space-x-2">
+                                @foreach ($team->members as $member)
+                                    @if ($member->pivot->role == 'Member')
+                                        <img src="{{ asset('storage/images/' . $member->image) }}"
+                                            alt="{{ $member->name }}" title="{{ $member->name }}"
+                                            class="w-8 h-8 rounded-full border-2 border-white" />
+                                    @endif
+                                @endforeach
+                            </div>
+
+                            <span class="text-sm text-gray-500 ml-2">
+                                {{ $team->members->where('pivot.role', 'Member')->count() }} members
+                            </span>
+                        </div>
+                        {{-- <div class="flex items-center mb-4">
                             <div class="flex items-center -space-x-2">
                                 @foreach ($team->members as $member)
                                     @if ($member->pivot->role == 'Member')
@@ -167,12 +187,13 @@
                                             class="w-8 h-8 rounded-full border-2 border-white hover:scale-110 transition-transform">
                                     @endif
                                 @endforeach
-                                <span class="text-sm text-gray-500 ml-2">
+
+                                <span class="text-sm text-gray-500 ml-7">
                                     {{ $team->members->where('pivot.role', 'Member')->count() }} members
                                 </span>
                             </div>
 
-                        </div>
+                        </div> --}}
 
 
                         @if ($user->id === $team->owner_id || $team->members->contains($user->id))
@@ -241,7 +262,8 @@
 
                                     <!-- Action Buttons -->
                                     <div class="flex justify-end gap-4 mt-6">
-                                        <button type="button" onclick="closeModal('modaleinvite{{ $team->id }}')"
+                                        <button type="button"
+                                            onclick="closeModal('modaleinvite{{ $team->id }}')"
                                             class="px-4 py-2 bg-gray-700 text-gray-200 rounded-md hover:bg-gray-600 transition">
                                             Cancel
                                         </button>

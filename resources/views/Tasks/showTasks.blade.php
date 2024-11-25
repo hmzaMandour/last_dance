@@ -94,7 +94,7 @@
 
             <div class="container shadow-sm shadow-gray-400 mb-6">
                 <div class="bg-[#151516] shadow-md rounded-lg">
-                    <h2 class="text-white text-2xl font-bold mb-4">Team tasks</h2>
+                    <h2 class="text-white text-2xl font-bold mb-4 p-2 text-center">Team tasks</h2>
 
                     <table class="min-w-full divide-y divide-gray-700">
                         <thead class="bg-gray-800">
@@ -143,11 +143,9 @@
                                     <td class="px-6 py-4 text-sm text-gray-100">
                                         {{ $task->name }}
                                     </td>
-                                    {{-- <td class="px-6 py-4 text-sm text-gray-400">
-                                        {{ Str::limit($task->description, 50, '...') }}
-                                    </td> --}}
                                     <td class="px-6 py-4 text-sm text-gray-400">
-                                        {{ $task->deadline ?? 'No Deadline' }}
+                                      start: {{ \Carbon\Carbon::parse($task->start)->format('H:i') }} <br>
+                                       end: {{ \Carbon\Carbon::parse($task->end)->format('H:i') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
@@ -184,9 +182,15 @@
                                             </button>
 
                                             <!-- Delete Icon Button -->
-                                            <button class="p-2 text-red-500 rounded-full">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            @can('destroy-task', $task)
+                                                <form action="{{ route('task.destroy', $task->id) }}" method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="p-2 text-red-500 rounded-full">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
@@ -197,7 +201,7 @@
             </div>
             <div class="container shadow-sm shadow-gray-400">
                 <div class="bg-[#151516] shadow-md rounded-lg">
-                   <h2 class="text-white text-2xl font-bold mb-4">My Own Tasks</h2>
+                    <h2 class="text-white text-2xl font-bold mb-4 p-2 text-center">My Own Tasks</h2>
 
                     <table class="min-w-full divide-y divide-gray-700">
                         <thead class="bg-gray-800">
@@ -250,7 +254,8 @@
                                         {{ Str::limit($task->description, 50, '...') }}
                                     </td> --}}
                                     <td class="px-6 py-4 text-sm text-gray-400">
-                                        {{ $task->deadline ?? 'No Deadline' }}
+                                      start: {{ \Carbon\Carbon::parse($task->start)->format('H:i') }} <br>
+                                       end: {{ \Carbon\Carbon::parse($task->end)->format('H:i') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
@@ -273,12 +278,7 @@
                                     <td class="px-6 py-4 text-sm text-gray-400">
                                         {{ $task->creator->name }}
                                     </td>
-                                    {{-- <td class="px-6 py-4 text-sm text-gray-400">
-                                        {{ $task->assignee?->name ?? 'Unassigned' }}
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-gray-400">
-                                        {{ $task->team?->name ?? 'No Team' }}
-                                    </td> --}}
+
                                     <td class="px-6 py-4 text-center">
                                         <div class="flex justify-center gap-2">
                                             <!-- Edit Icon Button -->
@@ -287,9 +287,15 @@
                                             </button>
 
                                             <!-- Delete Icon Button -->
-                                            <button class="p-2 text-red-500 rounded-full">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            @can('destroy-task', $task)
+                                                <form action="{{ route('task.destroy', $task->id) }}" method="post">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="p-2 text-red-500 rounded-full">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
