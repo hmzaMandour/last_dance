@@ -9,10 +9,10 @@
     <title>Register</title>
 </head>
 
-<body class="bg-[#151516] flex items-center justify-center min-h-screen p-3">
+<body class="bg-gray-200 flex items-center justify-center min-h-screen p-3">
 
     <!-- Register Form -->
-    <div class="bg-white w-full md:w-[60vw]  flex flex-col md:flex-row rounded-xl overflow-hidden shadow-xl">
+    <div class="bg-white w-full md:w-[60vw]  flex flex-col md:flex-row rounded-xl overflow-hidden shadow-2xl">
 
         <!-- Left Section (Form) -->
         <div class="w-full max-w-md bg-black p-8 rounded-lg shadow-lg flex flex-col justify-center space-y-6">

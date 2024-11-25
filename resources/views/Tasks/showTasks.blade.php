@@ -49,7 +49,7 @@
 </head>
 
 
-<body class="min-h-screen text-gray-800 overflow-x-hidden bg-[#1c1c1c] ">
+<body class="min-h-screen text-gray-800 overflow-x-hidden bg-gray-100">
 
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 
@@ -92,11 +92,11 @@
                 </div>
             </div>
 
-            <div class="container shadow-sm shadow-gray-400 mb-6">
-                <div class="bg-[#151516] shadow-md rounded-lg">
-                    <h2 class="text-white text-2xl font-bold mb-4 p-2 text-center">Team tasks</h2>
+            <div class="container shadow-lg shadow-gray-200 mb-6">
+                <div class=" shadow-md rounded-lg">
+                    <h2 class=" text-2xl font-bold mb-4 p-2 text-center">Team tasks</h2>
 
-                    <table class="min-w-full divide-y divide-gray-700">
+                    <table class="min-w-full ">
                         <thead class="bg-gray-800">
                             <tr>
                                 <th
@@ -137,22 +137,22 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-[#1c1c1c]  divide-y divide-gray-700">
+                        <tbody class=" divide-y divide-gray-300">
                             @foreach ($teamTasks as $task)
-                                <tr class="hover:bg-gray-800">
-                                    <td class="px-6 py-4 text-sm text-gray-100">
+                                <tr class="hover:bg-gray-300">
+                                    <td class="px-6 py-4 text-sm text-black">
                                         {{ $task->name }}
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-400">
+                                    <td class="px-6 py-4 text-sm text-black">
                                       start: {{ \Carbon\Carbon::parse($task->start)->format('H:i') }} <br>
                                        end: {{ \Carbon\Carbon::parse($task->end)->format('H:i') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
                                             class="px-2 inline-flex text-xs font-semibold rounded-full 
-                                @if ($task->priority === 'High') bg-red-600 text-white
-                                @elseif ($task->priority === 'Medium') bg-yellow-600 text-white
-                                @else bg-green-600 text-white @endif">
+                                @if ($task->priority === 'High') bg-red-600 text-black
+                                @elseif ($task->priority === 'Medium') bg-yellow-600 text-black
+                                @else bg-green-600 text-black @endif">
                                             {{ $task->priority }}
                                         </span>
                                     </td>
@@ -165,13 +165,13 @@
                                             {{ $task->status }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-400">
+                                    <td class="px-6 py-4 text-sm text-black">
                                         {{ $task->creator->name }}
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-400">
+                                    <td class="px-6 py-4 text-sm text-black">
                                         {{ $task->assignee?->name ?? 'Unassigned' }}
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-400">
+                                    <td class="px-6 py-4 text-sm text-black">
                                         {{ $task->team?->name ?? 'No Team' }}
                                     </td>
                                     <td class="px-6 py-4 text-center">
@@ -199,11 +199,11 @@
                     </table>
                 </div>
             </div>
-            <div class="container shadow-sm shadow-gray-400">
-                <div class="bg-[#151516] shadow-md rounded-lg">
-                    <h2 class="text-white text-2xl font-bold mb-4 p-2 text-center">My Own Tasks</h2>
+            <div class="container shadow-lg shadow-gray-200">
+                <div class=" shadow-md rounded-lg">
+                    <h2 class=" text-2xl font-bold mb-4 p-2 text-center">My Own Tasks</h2>
 
-                    <table class="min-w-full divide-y divide-gray-700">
+                    <table class="min-w-full divide-y">
                         <thead class="bg-gray-800">
                             <tr>
                                 <th
@@ -244,25 +244,25 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-[#1c1c1c]  divide-y divide-gray-700">
+                        <tbody class="  divide-y divide-gray-700">
                             @foreach ($userTasks as $task)
-                                <tr class="hover:bg-gray-800">
-                                    <td class="px-6 py-4 text-sm text-gray-100">
+                                <tr class="hover:bg-gray-300">
+                                    <td class="px-6 py-4 text-sm text-black">
                                         {{ $task->name }}
                                     </td>
                                     {{-- <td class="px-6 py-4 text-sm text-gray-400">
                                         {{ Str::limit($task->description, 50, '...') }}
                                     </td> --}}
-                                    <td class="px-6 py-4 text-sm text-gray-400">
+                                    <td class="px-6 py-4 text-sm text-black">
                                       start: {{ \Carbon\Carbon::parse($task->start)->format('H:i') }} <br>
                                        end: {{ \Carbon\Carbon::parse($task->end)->format('H:i') }}
                                     </td>
                                     <td class="px-6 py-4">
                                         <span
                                             class="px-2 inline-flex text-xs font-semibold rounded-full 
-                                @if ($task->priority === 'High') bg-red-600 text-white
-                                @elseif ($task->priority === 'Medium') bg-yellow-600 text-white
-                                @else bg-green-600 text-white @endif">
+                                @if ($task->priority === 'High') bg-red-600 text-black
+                                @elseif ($task->priority === 'Medium') bg-yellow-600 text-black
+                                @else bg-green-600 text-black @endif">
                                             {{ $task->priority }}
                                         </span>
                                     </td>
@@ -275,7 +275,7 @@
                                             {{ $task->status }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 text-sm text-gray-400">
+                                    <td class="px-6 py-4 text-sm text-black">
                                         {{ $task->creator->name }}
                                     </td>
 

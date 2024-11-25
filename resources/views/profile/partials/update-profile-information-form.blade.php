@@ -1,10 +1,10 @@
-<section class="bg-[#1c1c1c] shadow-md rounded-lg p-6">
+<section class="bg-white shadow-md rounded-lg p-6">
     <header class="mb-6">
-        <h2 class="text-xl font-semibold text-white font-semibold">
+        <h2 class="text-xl font-semibold text-black font-semibold">
             {{ __('Profile Information') }}
         </h2>
 
-        <p class="mt-2 text-sm text-gray-400">
+        <p class="mt-2 text-sm text-gray-700">
             {{ __("Update your account's profile information and email address.") }}
         </p>
     </header>
@@ -20,10 +20,9 @@
         <!-- Name Input -->
         <div>
             <x-input-label 
-                for="name" 
-                :value="__('Name')" 
-                class="text-gray-300" 
+                for="name"  
             />
+            Name
             <x-text-input 
                 id="name" 
                 name="name" 
@@ -41,9 +40,8 @@
         <div>
             <x-input-label 
                 for="email" 
-                :value="__('Email')" 
-                class="text-gray-300" 
             />
+            Email
             <x-text-input 
                 id="email" 
                 name="email" 
@@ -81,7 +79,7 @@
         <div class="flex items-center gap-4">
             <button 
                 type="submit" 
-                class="bg-white text-black hover:text-white hover:bg-black font-semibold px-4 py-2 rounded-lg  focus:ring-2  focus:ring-offset-2"
+                class="bg-black text-white hover:text-white hover:bg-black font-semibold px-4 py-2 rounded-lg  focus:ring-2  focus:ring-offset-2"
             >
                 {{ __('Save') }}
             </button>

@@ -90,7 +90,7 @@
 </head>
 
 
-<body class="min-h-screen  text-gray-800 bg-[#1c1c1c] ">
+<body class="min-h-screen  text-gray-800 bg-gray-100 ">
 
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 

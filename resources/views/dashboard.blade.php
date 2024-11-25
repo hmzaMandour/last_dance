@@ -52,7 +52,7 @@
     </script>
 </head>
 
-<body class="min-h-screen  bg-[rgba(0,0,0,0.89)]  font-sans">
+<body class="min-h-screen  bg-gray-100  font-sans">
 
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 
@@ -71,10 +71,10 @@
             <!-- Dashboard Content -->
             <div class="dashboard-content mt-6">
                 <!-- Title Section -->
-                <div class="p-6 rounded-lg shadow-sm shadow-gray-400">
-                    <h2 class="text-4xl font-extrabold text-white tracking-wide text-center mb-4">Welcome to the Task Management
+                <div class="p-6 rounded-lg shadow-lg ">
+                    <h2 class="text-4xl font-extrabold text-black tracking-wide text-center mb-4">Welcome to the Task Management
                         Dashboard</h2>
-                    <p class="text-lg font-medium text-white leading-relaxed text-center">
+                    <p class="text-lg font-medium text-black leading-relaxed text-center">
                         Manage your tasks, track progress, and collaborate with your team effectively.
                     </p>
                 </div>
@@ -82,20 +82,20 @@
 
                 <!-- Statistics Section -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                    <div class=" shadow-sm shadow-gray-400 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-bold text-white">Total Tasks</h3>
+                    <div class=" shadow-md shadow-gray-400 p-6 rounded-lg ">
+                        <h3 class="text-xl font-bold ">Total Tasks</h3>
                         <p class="text-3xl font-bold text-blue-500">{{ $allTasks }} </p>
-                        <p class="text-sm text-white">All tasks in the system.</p>
+                        <p class="text-sm ">All tasks in the system.</p>
                     </div>
-                    <div class="shadow-sm shadow-gray-400 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-bold text-white">Completed Tasks</h3>
+                    <div class="shadow-md shadow-gray-400 p-6 rounded-lg ">
+                        <h3 class="text-xl font-bold ">Completed Tasks</h3>
                         <p class="text-3xl font-bold text-green-500">{{ $totalDone }}</p>
-                        <p class="text-sm text-white">Tasks successfully completed.</p>
+                        <p class="text-sm ">Tasks successfully completed.</p>
                     </div>
-                    <div class="shadow-sm shadow-gray-400 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-bold text-white">Pending Tasks</h3>
+                    <div class="shadow-md shadow-gray-400 p-6 rounded-lg ">
+                        <h3 class="text-xl font-bold ">Pending Tasks</h3>
                         <p class="text-3xl font-bold text-yellow-500">{{ $totalDoing }}</p>
-                        <p class="text-sm text-white">Tasks waiting to be processed.</p>
+                        <p class="text-sm ">Tasks waiting to be processed.</p>
                     </div>
                 </div>
 
@@ -103,14 +103,14 @@
 
 
                 <!-- Chart Section (Placeholder for future chart integration) -->
-                <div class="bg-black p-6 mt-8 rounded-lg shadow-sm shadow-gray-400">
-                    <h3 class="text-xl font-semibold text-white">Task Status Overview</h3>
-                    <p class="text-sm text-gray-300 mt-2">A summary of your task progress and status over the week.</p>
+                <div class="border border-gray-200 p-6 mt-8 rounded-lg shadow-lg shadow-gray-300">
+                    <h3 class="text-xl font-semibold ">Task Status Overview</h3>
+                    <p class="text-sm text-gray-700 mt-2">A summary of your task progress and status over the week.</p>
 
                     <!-- Chart Container -->
                     <div class="w-full p-2 h-64 bg-white mt-6 rounded-lg flex items-center justify-center">
                         <!-- Placeholder for Chart -->
-                        <canvas id="taskStatusChart" class="rounded-lg shadow-lg"></canvas>
+                        <canvas id="taskStatusChart" class="rounded-lg shadow-lg p-1"></canvas>
                     </div>
 
                     <!-- Weekly Progress Section -->

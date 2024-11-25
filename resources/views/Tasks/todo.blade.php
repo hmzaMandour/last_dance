@@ -1,4 +1,4 @@
-h3<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -101,7 +101,7 @@ h3<!DOCTYPE html>
 
 </head>
 
-<body class="bg-[#1c1c1c]  text-gray-800">
+<body class="bg-gray-100   text-gray-800">
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 
     <div class="flex">

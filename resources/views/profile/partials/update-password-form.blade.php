@@ -1,10 +1,10 @@
-<section class="bg-[#1c1c1c] shadow-md rounded-lg p-6">
+<section class="bg-white shadow-md rounded-lg p-6">
     <header class="mb-6">
-        <h2 class="text-xl font-semibold text-white font-semibold">
+        <h2 class="text-xl font-semibold  font-semibold">
             {{ __('Update Password') }}
         </h2>
 
-        <p class="mt-2 text-sm text-gray-400">
+        <p class="mt-2 text-sm ">
             {{ __('Ensure your account is using a long, random password to stay secure.') }}
         </p>
     </header>
@@ -16,9 +16,9 @@
         <div>
             <x-input-label 
                 for="update_password_current_password" 
-                :value="__('Current Password')" 
-                class="text-gray-300" 
+
             />
+            Current Password
             <x-text-input 
                 id="update_password_current_password" 
                 name="current_password" 
@@ -32,9 +32,9 @@
         <div>
             <x-input-label 
                 for="update_password_password" 
-                :value="__('New Password')" 
-                class="text-gray-300" 
+
             />
+            New Password'
             <x-text-input 
                 id="update_password_password" 
                 name="password" 
@@ -48,9 +48,9 @@
         <div>
             <x-input-label 
                 for="update_password_password_confirmation" 
-                :value="__('Confirm Password')" 
-                class="text-gray-300" 
+
             />
+            Confirm Password
             <x-text-input 
                 id="update_password_password_confirmation" 
                 name="password_confirmation" 
@@ -64,7 +64,7 @@
         <div class="flex items-center gap-4">
             <button 
                 type="submit" 
-                class="bg-white text-black hover:text-white hover:bg-black font-semibold px-4 py-2 rounded-lg focus:ring-2 focus:ring-offset-2"
+                class="bg-black text-white hover:text-white hover:bg-black font-semibold px-4 py-2 rounded-lg focus:ring-2 focus:ring-offset-2"
             >
                 {{ __('Save') }}
             </button>
