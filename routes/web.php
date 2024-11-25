@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/task/create', [TeamController::class, 'create'])->name('task.create');
     // Route::get('/task/dashboard', [TeamController::class, 'index2'])->name('dashboard');
     Route::resource('/team', TeamController::class);
+    Route::get('task/calender' , [TeamController::class , 'teamcalender'])->name('teamCal');
+    Route::get('/task/calender/create2', [TeamController::class, 'create2'])->name('team.calender');
 
     Route::post('/invite/store/{teamId}', [InvitationController::class, 'store'])->name('invite.store');
     Route::get('/invitations/{id}/accept', [InvitationController::class, 'accept'])->name('invitations.accept');

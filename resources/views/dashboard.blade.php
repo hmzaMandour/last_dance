@@ -57,14 +57,14 @@
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 
     <!-- Sidebar -->
-    <div class="flex ">
+    <div class="flex  ">
 
 
         @include('layouts.sidebar')
 
 
         <!-- Main Content -->
-        <main class="flex-1 p-6">
+        <main class="flex-1  p-6">
             <!-- Top Navigation Bar -->
             @include('Tasks.navbar')
 

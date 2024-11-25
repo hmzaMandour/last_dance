@@ -104,10 +104,10 @@
 <body class="bg-gray-100   text-gray-800">
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 
-    <div class="flex">
+    <div class="flex min-h-screen">
         @include('layouts.sidebar')
 
-        <div class="flex-1 p-6">
+        <div class="flex-1  p-6">
             @include('Tasks.navbar')
 
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Responsive Task Management</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
@@ -25,7 +25,6 @@
         };
     </script>
 
-
     <script>
         function hideMessages() {
             const successMessage = document.getElementById('success-message');
@@ -42,23 +41,24 @@
             }
         }
 
-
         document.addEventListener('DOMContentLoaded', hideMessages);
     </script>
-
 </head>
 
-
-<body class="min-h-screen text-gray-800 overflow-x-hidden bg-gray-100">
-
+<body class=" text-gray-800 overflow-x-hidden bg-gray-100">
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 
-    <div class="flex">
-        @include('layouts.sidebar')
+    <div class="flex flex-col lg:flex-row">
+        <!-- Sidebar -->
+        <div class=" flex     ">
+            @include('layouts.sidebar')
+        </div>
 
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-4 lg:p-6">
+            <!-- Navbar -->
             @include('Tasks.navbar')
 
+            <!-- Success & Error Messages -->
             @if (session('success'))
                 <div id="success-message"
                     class="bg-green-100 border border-green-400 text-green-700 mt-4 p-4 rounded-lg mb-4 shadow-sm flex items-start gap-3">
@@ -82,231 +82,150 @@
                 </div>
             @endif
 
-            <div class="mb-4 flex  items-center justify-between">
-                @include('Tasks.create_task')
-                <div>
+            <!-- Top Section -->
+            <div class="mb-4 flex flex-wrap items-center justify-between">
+                <div class="mb-2 ">
+                    @include('Tasks.create_task')
+                </div>
+                <div class="mb-2">
                     <a href="{{ route('tasks.todo') }}"
-                        class="bg-blue-600  hover:bg-blue-500  font-semibold text-white px-4 py-2 rounded-lg">View To-Do
+                        class="bg-blue-600 hover:bg-blue-500 font-semibold text-white px-4 py-2 rounded-lg">View To-Do
                         List</a>
-
                 </div>
             </div>
 
-            <div class="container shadow-lg shadow-gray-200 mb-6">
-                <div class=" shadow-md rounded-lg">
-                    <h2 class=" text-2xl font-bold mb-4 p-2 text-center">Team tasks</h2>
+            <!-- Team Tasks -->
+            <div class="container shadow-lg bg-white rounded-lg mb-6 overflow-x-auto">
+                <h2 class="text-2xl font-bold mb-4 p-2 text-center">Team Tasks</h2>
+                <table class="min-w-full table-auto divide-y divide-gray-300 text-sm">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="px-6 py-3">Task Name</th>
+                            <th class="px-6 py-3">Deadline</th>
+                            <th class="px-6 py-3">Priority</th>
+                            <th class="px-6 py-3">Status</th>
+                            <th class="px-6 py-3">Creator</th>
+                            <th class="px-6 py-3">Assigned To</th>
+                            <th class="px-6 py-3">Team</th>
+                            <th class="px-6 py-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach ($teamTasks as $task)
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-6 py-4">{{ $task->name }}</td>
+                                <td class="px-6 py-4">
+                                    <div>Start: {{ \Carbon\Carbon::parse($task->start)->format('H:i') }}</div>
+                                    <div>End: {{ \Carbon\Carbon::parse($task->end)->format('H:i') }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 inline-block text-xs font-semibold rounded 
+                                        @if ($task->priority === 'High') bg-red-600 text-white 
+                                        @elseif ($task->priority === 'Medium') bg-yellow-500 text-black 
+                                        @else bg-green-500 text-black @endif">
+                                        {{ $task->priority }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 inline-block text-xs font-semibold rounded 
+                                        @if ($task->status === 'Do') bg-black text-red-400 
+                                        @elseif ($task->status === 'Doing') bg-black text-yellow-400 
+                                        @else bg-black text-green-400 @endif">
+                                        {{ $task->status }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">{{ $task->creator->name }}</td>
+                                <td class="px-6 py-4">{{ $task->assignee?->name ?? 'Unassigned' }}</td>
+                                <td class="px-6 py-4">{{ $task->team?->name ?? 'No Team' }}</td>
+                                <td class="px-6 py-4 text-center">
+                                    <div class="flex justify-center gap-2">
 
-                    <table class="min-w-full ">
-                        <thead class="bg-gray-800">
-                            <tr>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Task Name
-                                </th>
-                                {{-- <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Description
-                                </th> --}}
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Deadline
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Priority
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Status
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Creator
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Assigned To
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Team
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class=" divide-y divide-gray-300">
-                            @foreach ($teamTasks as $task)
-                                <tr class="hover:bg-gray-300">
-                                    <td class="px-6 py-4 text-sm text-black">
-                                        {{ $task->name }}
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-black">
-                                      start: {{ \Carbon\Carbon::parse($task->start)->format('H:i') }} <br>
-                                       end: {{ \Carbon\Carbon::parse($task->end)->format('H:i') }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 inline-flex text-xs font-semibold rounded-full 
-                                @if ($task->priority === 'High') bg-red-600 text-black
-                                @elseif ($task->priority === 'Medium') bg-yellow-600 text-black
-                                @else bg-green-600 text-black @endif">
-                                            {{ $task->priority }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 inline-flex text-xs font-semibold rounded-full 
-                                @if ($task->status === 'Completed') bg-green-500 text-gray-900
-                                @elseif ($task->status === 'Overdue') bg-red-500 text-gray-900
-                                @else bg-yellow-500 text-gray-900 @endif">
-                                            {{ $task->status }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-black">
-                                        {{ $task->creator->name }}
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-black">
-                                        {{ $task->assignee?->name ?? 'Unassigned' }}
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-black">
-                                        {{ $task->team?->name ?? 'No Team' }}
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <div class="flex justify-center gap-2">
-                                            <!-- Edit Icon Button -->
+                                        @can('destroy-task', $task)
                                             <button class="p-2 text-blue-500 rounded-full">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-
-                                            <!-- Delete Icon Button -->
-                                            @can('destroy-task', $task)
-                                                <form action="{{ route('task.destroy', $task->id) }}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="p-2 text-red-500 rounded-full">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            @endcan
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="container shadow-lg shadow-gray-200">
-                <div class=" shadow-md rounded-lg">
-                    <h2 class=" text-2xl font-bold mb-4 p-2 text-center">My Own Tasks</h2>
-
-                    <table class="min-w-full divide-y">
-                        <thead class="bg-gray-800">
-                            <tr>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Task Name
-                                </th>
-                                {{-- <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Description
-                                </th> --}}
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Deadline
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Priority
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Status
-                                </th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Creator
-                                </th>
-                                {{-- <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Assigned To
-                                </th> --}}
-                                {{-- <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Team
-                                </th> --}}
-                                <th
-                                    class="px-6 py-3 text-center text-xs font-medium text-gray-300 uppercase tracking-wider">
-                                    Actions
-                                </th>
+                                            <form action="{{ route('task.destroy', $task->id) }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="p-2 text-red-500 rounded-full">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    </div>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody class="  divide-y divide-gray-700">
-                            @foreach ($userTasks as $task)
-                                <tr class="hover:bg-gray-300">
-                                    <td class="px-6 py-4 text-sm text-black">
-                                        {{ $task->name }}
-                                    </td>
-                                    {{-- <td class="px-6 py-4 text-sm text-gray-400">
-                                        {{ Str::limit($task->description, 50, '...') }}
-                                    </td> --}}
-                                    <td class="px-6 py-4 text-sm text-black">
-                                      start: {{ \Carbon\Carbon::parse($task->start)->format('H:i') }} <br>
-                                       end: {{ \Carbon\Carbon::parse($task->end)->format('H:i') }}
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 inline-flex text-xs font-semibold rounded-full 
-                                @if ($task->priority === 'High') bg-red-600 text-black
-                                @elseif ($task->priority === 'Medium') bg-yellow-600 text-black
-                                @else bg-green-600 text-black @endif">
-                                            {{ $task->priority }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <span
-                                            class="px-2 inline-flex text-xs font-semibold rounded-full 
-                                @if ($task->status === 'Completed') bg-green-500 text-gray-900
-                                @elseif ($task->status === 'Overdue') bg-red-500 text-gray-900
-                                @else bg-yellow-500 text-gray-900 @endif">
-                                            {{ $task->status }}
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 text-sm text-black">
-                                        {{ $task->creator->name }}
-                                    </td>
-
-                                    <td class="px-6 py-4 text-center">
-                                        <div class="flex justify-center gap-2">
-                                            <!-- Edit Icon Button -->
-                                            <button class="p-2 text-blue-500 rounded-full">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-
-                                            <!-- Delete Icon Button -->
-                                            @can('destroy-task', $task)
-                                                <form action="{{ route('task.destroy', $task->id) }}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button class="p-2 text-red-500 rounded-full">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            @endcan
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
+
+            <!-- My Own Tasks -->
+            <div class="container shadow-lg bg-white rounded-lg overflow-x-auto">
+                <h2 class="text-2xl font-bold mb-4 p-2 text-center">My Own Tasks</h2>
+                <table class="min-w-full table-auto divide-y divide-gray-300 text-sm">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="px-6 py-3">Task Name</th>
+                            <th class="px-6 py-3">Deadline</th>
+                            <th class="px-6 py-3">Priority</th>
+                            <th class="px-6 py-3">Status</th>
+                            <th class="px-6 py-3">Creator</th>
+                            <th class="px-6 py-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach ($userTasks as $task)
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-6 py-4">{{ $task->name }}</td>
+                                <td class="px-6 py-4">
+                                    <div>Start: {{ \Carbon\Carbon::parse($task->start)->format('H:i') }}</div>
+                                    <div>End: {{ \Carbon\Carbon::parse($task->end)->format('H:i') }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 inline-block text-xs font-semibold rounded 
+                                        @if ($task->priority === 'High') bg-red-600 text-white 
+                                        @elseif ($task->priority === 'Medium') bg-yellow-500 text-black 
+                                        @else bg-green-500 text-black @endif">
+                                        {{ $task->priority }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="px-2 py-1 inline-block text-xs font-semibold rounded 
+                                        @if ($task->status === 'Do') bg-black text-red-400 
+                                        @elseif ($task->status === 'Doing') bg-black text-yellow-400 
+                                        @else bg-black text-green-400 @endif">
+                                        {{ $task->status }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">{{ $task->creator->name }}</td>
+                                <td class="px-6 py-4 text-center">
+                                    <div class="flex justify-center gap-2">
+                                        <button class="p-2 text-blue-500 rounded-full">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <form action="{{ route('task.destroy', $task->id) }}" method="post">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button class="p-2 text-red-500 rounded-full">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
         </main>
     </div>
-</body>
 
+</body>
 
 </html>

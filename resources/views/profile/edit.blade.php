@@ -13,9 +13,9 @@
 
 <body class="bg-[#1c1c1c]">
 
-    <div class="flex">
+    <div class="flex ">
         @include('layouts.sidebar')
-        <main class="flex-1 p-6">
+        <main class="flex-1  p-6">
             @include('Tasks.navbar')
 
 

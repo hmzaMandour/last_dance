@@ -57,8 +57,8 @@ class TaskController extends Controller
     public function create()
     {
         //
-
-        $events = Task::all();
+        $user = auth()->user();
+        $events =Task::where('creator_id', $user->id)->get();
 
         $events = $events->map(function ($e) {
             $user = User::where("id", $e->user_id)->first();
@@ -67,7 +67,7 @@ class TaskController extends Controller
                 "start" => $e->start,
                 "end" => $e->end,
                 "owner" => $e->user_id,
-                "color" => "#000",
+                "color" => "#1c1c1c",
                 "passed" => false,
                 "title" => "Course : $e->name",
                 "name" => $e->name,
@@ -119,7 +119,7 @@ class TaskController extends Controller
 
         ]);
 
-        return back();
+        return redirect()->route('team.index')->with('success', 'Task created successfully!');
     }
 
     public function updateStatus(Request $request, Task $task)
@@ -166,6 +166,6 @@ class TaskController extends Controller
         //
         Gate::authorize('destroy-task', $task);
         $task->delete();
-        return back();
+        return back()->with('success' , 'You deleted this task successfully!! ');
     }
 }

@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <script>
         window.openModal = function(modalId) {
@@ -77,7 +77,7 @@
 
                 <script>
                     document.addEventListener('DOMContentLoaded', async function() {
-                        let response = await axios.get("/calendar/create");
+                        let response = await axios.get("/task/calender/create2");
                         let events = response.data.events;
 
                         var myCalendar = document.getElementById('calendar');

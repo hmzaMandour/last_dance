@@ -50,10 +50,13 @@ public function members()
 
     public function index2(){
         $user=auth()->user();
-        $allTasks= Task::where('creator_id', $user->id)->count();
-        $totalDone = Task::where('creator_id' , $user->id)->where('status', 'Done')->count();
-        $totalDo = Task::where('creator_id' , $user->id)->where('status', 'Do')->count();
-        $totalDoing = Task::where('creator_id' , $user->id)->where('status', 'Doing')->count();
+        $allTasks= Task::whereIn('id', $user->teams->pluck('id'))->orWhere('creator_id', $user->id)->count();
+        $totalDone =
+        Task::whereIn('id', $user->teams->pluck('id'))->orWhere('creator_id', $user->id)->where('status', 'Done')->count();
+        $totalDo =
+        Task::whereIn('id', $user->teams->pluck('id'))->orWhere('creator_id', $user->id)->where('status', 'Do')->count();
+        $totalDoing =
+        Task::whereIn('id', $user->teams->pluck('id'))->orWhere('creator_id', $user->id)->where('status', 'Doing')->count();
    
         $weeklyProgress = [12, 19, 3, 5, 2, 3, 9];
         return view('dashboard', compact( 'weeklyProgress' , 'totalDone', 'totalDo' , 'totalDoing' , 'allTasks'));
@@ -67,6 +70,39 @@ public function members()
     {
         //
         return view('Tasks.create_team' );
+    }
+
+    public function teamcalender(){
+        return view('Tasks.TeamCalendar');
+    }
+
+    public function create2()
+    {
+        //
+        $user = auth()->user();
+        // $events = Task::where('creator_id', $user->id)->get();
+        $events = Task::whereIn('team_id', $user->teams->pluck('id'))->get();
+        $events = $events->map(function ($e) {
+            $user = User::where("id", $e->user_id)->first();
+            return [
+                "id" => $e->id,
+                "start" => $e->start,
+                "end" => $e->end,
+                "owner" => $e->user_id,
+                "color" => "#1c1c1c",
+                "passed" => false,
+                "title" => "Course : $e->name",
+                "name" => $e->name,
+                "description" => $e->description,
+                "places" => $e->places,
+                "start_time" => $e->start,
+                "end_time" => $e->end,
+            ];
+        });
+
+        return response()->json([
+            "events" => $events
+        ]);
     }
 
 

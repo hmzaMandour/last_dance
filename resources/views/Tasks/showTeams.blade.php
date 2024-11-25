@@ -95,13 +95,13 @@
     <h1 class="hidden"> {{ $user = Auth::user() }}</h1>
 
 
-    <div class="flex">
+    <div class="flex min-h-screen">
 
 
         @include('layouts.sidebar')
 
 
-        <main class="flex-1 p-6 ">
+        <main class="flex-1  p-6 ">
 
 
             @include('Tasks.navbar')

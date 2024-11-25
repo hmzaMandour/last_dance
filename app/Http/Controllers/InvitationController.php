@@ -64,7 +64,7 @@ class InvitationController extends Controller
         Mail::to($request->email)->send(new InvitationMailer($invitation));
 
 
-        return back()->with('success','message invitation');
+        return back()->with('success', 'message invitation sent successfully!!!');
 
     }
 
@@ -126,13 +126,14 @@ class InvitationController extends Controller
 
         // Check if the invitation is still pending
         if ($invitation->status !== 'Pending') {
-            return response()->json(['message' => 'This invitation is no longer valid.'], 400);
+            return redirect()->route('team.index')->with('error', 'This invitation is no longer valid.');
         }
 
         // Update the invitation status
         $invitation->update(['status' => 'Rejected']);
 
-        return response()->json(['message' => 'You have rejected the invitation.']);
+        return redirect()->route('team.index')->with('error', 'You have rejected the invitation.');
+
     }
 
 
