@@ -11,7 +11,7 @@
     <title>Document</title>
 </head>
 
-<body class="bg-[#1c1c1c]">
+<body class="bg-gray-100">
 
     <div class="flex ">
         @include('layouts.sidebar')
